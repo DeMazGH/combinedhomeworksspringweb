@@ -13,43 +13,25 @@ import pro.sky.combined_homeworks_spring_web.Service.EmployeeService;
 @RequestMapping("/employee")
 public class EmployeeController {
 
-    EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
     @GetMapping("/add")
-    public Object addNewEmployee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
-        Employee newEmployee = new Employee(firstName, lastName);
-        try {
-            employeeService.addNewEmployee(newEmployee);
-        } catch (EmployeeAlreadyAddedException e) {
-            return e;
-        }
-        return newEmployee;
+    public Employee addNewEmployee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+        return employeeService.addNewEmployee(firstName, lastName);
     }
 
     @GetMapping("/remove")
-    public Object deleteEmployee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
-        Employee newEmployee = new Employee(firstName, lastName);
-        try {
-            employeeService.deleteEmployee(firstName, lastName);
-        } catch (EmployeeNotFoundException e) {
-            return e;
-        }
-        return newEmployee;
+    public Employee deleteEmployee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+        return employeeService.deleteEmployee(firstName, lastName);
     }
 
     @GetMapping("/find")
-    public Object findEmployee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
-        Employee newEmployee = new Employee(firstName, lastName);
-        try {
-            employeeService.findEmployee(firstName, lastName);
-        } catch (EmployeeNotFoundException e) {
-            return e;
-        }
-        return newEmployee;
+    public Employee findEmployee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+        return employeeService.findEmployee(firstName, lastName);
     }
 
     @GetMapping("/list")
