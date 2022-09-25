@@ -1,4 +1,4 @@
-package pro.sky.combined_homeworks_spring_web;
+package pro.sky.combined_homeworks_spring_web.model;
 
 import java.util.Objects;
 

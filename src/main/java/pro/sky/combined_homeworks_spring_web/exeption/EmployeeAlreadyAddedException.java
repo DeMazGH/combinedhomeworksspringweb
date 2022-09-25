@@ -1,4 +1,4 @@
-package pro.sky.combined_homeworks_spring_web.Exeption;
+package pro.sky.combined_homeworks_spring_web.exeption;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

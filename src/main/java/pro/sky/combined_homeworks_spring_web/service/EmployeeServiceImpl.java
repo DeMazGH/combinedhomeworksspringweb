@@ -1,9 +1,9 @@
-package pro.sky.combined_homeworks_spring_web.Service;
+package pro.sky.combined_homeworks_spring_web.service;
 
 import org.springframework.stereotype.Service;
-import pro.sky.combined_homeworks_spring_web.Employee;
-import pro.sky.combined_homeworks_spring_web.Exeption.EmployeeAlreadyAddedException;
-import pro.sky.combined_homeworks_spring_web.Exeption.EmployeeNotFoundException;
+import pro.sky.combined_homeworks_spring_web.model.Employee;
+import pro.sky.combined_homeworks_spring_web.exeption.EmployeeAlreadyAddedException;
+import pro.sky.combined_homeworks_spring_web.exeption.EmployeeNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collections;

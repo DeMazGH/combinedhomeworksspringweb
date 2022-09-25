@@ -1,13 +1,11 @@
-package pro.sky.combined_homeworks_spring_web.Controller;
+package pro.sky.combined_homeworks_spring_web.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pro.sky.combined_homeworks_spring_web.Employee;
-import pro.sky.combined_homeworks_spring_web.Exeption.EmployeeAlreadyAddedException;
-import pro.sky.combined_homeworks_spring_web.Exeption.EmployeeNotFoundException;
-import pro.sky.combined_homeworks_spring_web.Service.EmployeeService;
+import pro.sky.combined_homeworks_spring_web.model.Employee;
+import pro.sky.combined_homeworks_spring_web.service.EmployeeService;
 
 @RestController
 @RequestMapping("/employee")
