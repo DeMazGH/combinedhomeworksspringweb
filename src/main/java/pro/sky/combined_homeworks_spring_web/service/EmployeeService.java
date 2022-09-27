@@ -2,8 +2,6 @@ package pro.sky.combined_homeworks_spring_web.service;
 
 import pro.sky.combined_homeworks_spring_web.model.Employee;
 
-import java.util.List;
-
 public interface EmployeeService {
 
     Employee addNewEmployee(String firstName, String lastName);
@@ -12,5 +10,5 @@ public interface EmployeeService {
 
     Employee findEmployee(String firstName, String lastName);
 
-    List<Employee> getListOfEmployees();
+//    List<Employee> getEployees();
 }
