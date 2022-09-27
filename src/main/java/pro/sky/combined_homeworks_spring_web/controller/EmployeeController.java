@@ -32,9 +32,9 @@ public class EmployeeController {
         return employeeService.findEmployee(firstName, lastName);
     }
 
-//    @GetMapping("/list")
-//    public Object findEmployee() {
-//        return employeeService.getEployees();
-//    }
+    @GetMapping("/list")
+    public Object findEmployee() {
+        return employeeService.getEployees();
+    }
 
 }

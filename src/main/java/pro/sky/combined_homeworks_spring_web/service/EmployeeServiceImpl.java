@@ -1,9 +1,11 @@
 package pro.sky.combined_homeworks_spring_web.service;
 
 import org.springframework.stereotype.Service;
+import pro.sky.combined_homeworks_spring_web.exeption.EmployeeAlreadyAddedException;
 import pro.sky.combined_homeworks_spring_web.exeption.EmployeeNotFoundException;
 import pro.sky.combined_homeworks_spring_web.model.Employee;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,21 +21,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee addNewEmployee(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
-        String key = firstName + " " + lastName;
-//        if (eployees.get()) {
-//            throw new EmployeeAlreadyAddedException("Такой сотрудник уже существует");
-//        }
-        eployees.put(key, employee);
+        if (eployees.containsKey(employee.getFullName())) {
+            throw new EmployeeAlreadyAddedException("Такой сотрудник уже существует");
+        }
+        eployees.put(employee.getFullName(), employee);
         return employee;
     }
 
     @Override
     public Employee deleteEmployee(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
-        String key = firstName + " " + lastName;
-        if (eployees.containsKey(key)) {
-            eployees.remove(key);
-            return employee;
+        if (eployees.containsKey(employee.getFullName())) {
+            return eployees.remove(employee.getFullName());
         } else {
             throw new EmployeeNotFoundException("Сотрудник не найден, проверьте правильность ввода данных!");
         }
@@ -42,16 +41,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee findEmployee(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
-        String key = firstName + " " + lastName;
-        if (eployees.containsKey(key)) {
+        if (eployees.containsKey(employee.getFullName())) {
             return employee;
         } else {
             throw new EmployeeNotFoundException("Сотрудник не найден, проверьте правильность ввода данных!");
         }
     }
 
-//    @Override
-//    public List<Employee> getEployees() {
-//        return Collections.unmodifiableList(eployees);
-//    }
+    @Override
+    public Map<String, Employee> getEployees() {
+
+        return Collections.unmodifiableMap(eployees);
+    }
 }
