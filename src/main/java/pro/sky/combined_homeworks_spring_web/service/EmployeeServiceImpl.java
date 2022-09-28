@@ -12,27 +12,27 @@ import java.util.Map;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final Map<String, Employee> eployees;
+    private final Map<String, Employee> employees;
 
     public EmployeeServiceImpl() {
-        this.eployees = new HashMap<>();
+        this.employees = new HashMap<>();
     }
 
     @Override
-    public Employee addNewEmployee(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
-        if (eployees.containsKey(employee.getFullName())) {
+    public Employee addNewEmployee(String firstName, String lastName, double salary, int department) {
+        Employee employee = new Employee(firstName, lastName, salary, department);
+        if (employees.containsKey(employee.getFullName())) {
             throw new EmployeeAlreadyAddedException("Такой сотрудник уже существует");
         }
-        eployees.put(employee.getFullName(), employee);
+        employees.put(employee.getFullName(), employee);
         return employee;
     }
 
     @Override
     public Employee deleteEmployee(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
-        if (eployees.containsKey(employee.getFullName())) {
-            return eployees.remove(employee.getFullName());
+        String desiredEmployee = firstName + " " + lastName;
+        if (employees.containsKey(desiredEmployee)) {
+            return employees.remove(desiredEmployee);
         } else {
             throw new EmployeeNotFoundException("Сотрудник не найден, проверьте правильность ввода данных!");
         }
@@ -40,17 +40,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee findEmployee(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
-        if (eployees.containsKey(employee.getFullName())) {
-            return employee;
+        String desiredEmployee = firstName + " " + lastName;
+        if (employees.containsKey(desiredEmployee)) {
+            return employees.get(desiredEmployee);
         } else {
             throw new EmployeeNotFoundException("Сотрудник не найден, проверьте правильность ввода данных!");
         }
     }
 
     @Override
-    public Map<String, Employee> getEployees() {
+    public Map<String, Employee> getEmployees() {
 
-        return Collections.unmodifiableMap(eployees);
+        return Collections.unmodifiableMap(employees);
     }
 }
