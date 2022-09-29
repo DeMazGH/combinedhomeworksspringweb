@@ -56,4 +56,10 @@ public class EmployeeController {
     public String getListOfEmployeesByDepartment() {
         return employeeService.getListOfEmployeesByDepartment();
     }
+
+    @GetMapping("/departments/max-salary")
+    public String findHighestPaidEmployeeInDepartment(int departmentId) {
+        return "Самый высокоплачиваемый сотрудник в отделе " + departmentId + ": <br>"
+                + employeeService.findHighestPaidEmployeeInDepartment(departmentId).toString();
+    }
 }

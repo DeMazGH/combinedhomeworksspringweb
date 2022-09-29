@@ -38,7 +38,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Имя: " + firstName + " Фамилия: " + lastName + "Отдел: " + department + "Зарплата: " + salary;
+        return "Имя: " + firstName + ", Фамилия: " + lastName + ", Отдел: " + department + ", Зарплата: " + salary;
     }
 
     public void setSalary(double salary) {

@@ -59,53 +59,66 @@ public class EmployeeServiceImpl implements EmployeeService {
         String result = "";
         result += "Сотрудники отдела " + departmentId + " :<br>";
 
-//        for (int i = 0; i < employeesList.size(); i++) {
-//            if (employeesList.get(i).getDepartment() == departmentId) {
-//                result += employeesList.get(i).getFullName() + " <br>";;
-//            }
-//        }
         result += employeesList.stream()
                 .filter(e -> e.getDepartment() == departmentId)
                 .map(e -> e.getFullName() + "<br>")
                 .collect(Collectors.joining());
         result += "<br>";
+
+//        for (int i = 0; i < employeesList.size(); i++) {
+//            if (employeesList.get(i).getDepartment() == departmentId) {
+//                result += employeesList.get(i).getFullName() + " <br>";;
+//            }
+//        }
         return result;
     }
 
     @Override
     public String getListOfEmployeesByDepartment() {
-        String result = "Список имён сотрудников по отделам <br>";
+        StringBuilder result = new StringBuilder("Список имён сотрудников по отделам <br>");
         for (int i = 1; i <= Employee.getNumberOfDepartments(); i++) {
-            result += getEmployeesInDepartment(i);
+            result.append(getEmployeesInDepartment(i));
         }
-        return result;
+        return result.toString();
     }
 
+    @Override
     public Employee findHighestPaidEmployeeInDepartment(int departmentId) {
         checkAvailabilityDepartment(departmentId);
         checkAvailabilityEmployees(departmentId);
 
-        double highestSalaryInDepartment = 0;
-        Employee highestPaidEmloyeeInDepartment = null;
+        List<Employee> employeesList = new ArrayList<>(employees.values());
+        double highestSalaryInDepartment = employeesList.stream()
+                .filter(e -> e.getDepartment() == departmentId)
+                .map(Employee::getSalary)
+                .max(Double::compareTo)
+                .get();
 
-        for (Employee currentEmployee : listOfEmployees) {
-            if (currentEmployee != null && currentEmployee.getSalary() > highestSalaryInDepartment && currentEmployee.getDepartment() == departmentId) {
-                highestSalaryInDepartment = currentEmployee.getSalary();
-                highestPaidEmloyeeInDepartment = currentEmployee;
-            }
-        }
-        return highestPaidEmloyeeInDepartment;
+        Employee highestPaidEmployeeInDepartment = employeesList.stream()
+                .filter(e -> e.getSalary() == highestSalaryInDepartment).findFirst().get();
+
+//        for (Employee currentEmployee : employeesList) {
+//            if (currentEmployee.getSalary() > highestSalaryInDepartment
+//                    && currentEmployee.getDepartment() == departmentId) {
+//                highestSalaryInDepartment = currentEmployee.getSalary();
+//                highestPaidEmployeeInDepartment = currentEmployee;
+//            }
+//        }
+        return highestPaidEmployeeInDepartment;
     }
 
     public void checkAvailabilityEmployees(int departmentId) {
         List<Employee> employeesList = new ArrayList<>(employees.values());
-        if (employeesList.stream().anyMatch(e -> e.getDepartment() == departmentId)) {
+        if (employeesList.isEmpty()) {
+            throw new EmployeeNotFoundException("Сотрудников не найдено");
+        }
+        if (employeesList.stream().allMatch(e -> e.getDepartment() != departmentId)) {
             throw new EmployeeNotFoundException("В данном отделе нет сотрудников");
         }
     }
 
     public void checkAvailabilityDepartment(int departmentId) {
-        if (departmentId <= 0 || departmentId > Employee.getNumberOfDepartments()) {
+        if (departmentId <= 0 || departmentId >= Employee.getNumberOfDepartments()) {
             throw new IllegalArgumentException("Неверный номер отдела, допустимое значение от 1 до "
                     + Employee.getNumberOfDepartments());
         }
