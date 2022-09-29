@@ -47,4 +47,8 @@ public class EmployeeController {
         return employeeService.getEmployees();
     }
 
+    @GetMapping("/departments/all")
+    public String getListOfEmployeesInDepartment(@RequestParam("departmentId")int departmentId) {
+        return employeeService.getListOfEmployeesInDepartment(departmentId);
+    }
 }

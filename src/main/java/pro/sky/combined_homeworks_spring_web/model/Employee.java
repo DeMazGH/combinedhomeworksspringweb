@@ -1,5 +1,7 @@
 package pro.sky.combined_homeworks_spring_web.model;
 
+import jdk.dynalink.beans.StaticClass;
+
 import java.util.Objects;
 
 public class Employee {
@@ -7,6 +9,8 @@ public class Employee {
     private final String lastName;
     private double salary;
     private int department;
+
+    static final int numberOfDepartments = 5;
 
     public Employee(String firstName, String lastName, double salary, int department) {
         this.firstName = firstName;
@@ -35,5 +39,21 @@ public class Employee {
     @Override
     public String toString() {
         return "Имя: " + firstName + " Фамилия: " + lastName + "Отдел: " + department + "Зарплата: " + salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    public void setDepartment(int department) {
+        this.department = department;
+    }
+
+    public int getDepartment() {
+        return department;
+    }
+
+    public static int getNumberOfDepartments() {
+        return numberOfDepartments;
     }
 }

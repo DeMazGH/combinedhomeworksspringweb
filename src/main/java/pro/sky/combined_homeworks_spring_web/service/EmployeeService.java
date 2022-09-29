@@ -13,4 +13,6 @@ public interface EmployeeService {
     Employee findEmployee(String firstName, String lastName);
 
     Map<String, Employee> getEmployees();
+
+    String getListOfEmployeesInDepartment(int departmentNumber);
 }
