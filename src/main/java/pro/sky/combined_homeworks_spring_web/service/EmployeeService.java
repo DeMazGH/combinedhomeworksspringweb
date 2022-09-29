@@ -1,7 +1,6 @@
 package pro.sky.combined_homeworks_spring_web.service;
 
 import pro.sky.combined_homeworks_spring_web.model.Employee;
-
 import java.util.Map;
 
 public interface EmployeeService {

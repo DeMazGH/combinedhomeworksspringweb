@@ -1,7 +1,5 @@
 package pro.sky.combined_homeworks_spring_web.model;
 
-import jdk.dynalink.beans.StaticClass;
-
 import java.util.Objects;
 
 public class Employee {

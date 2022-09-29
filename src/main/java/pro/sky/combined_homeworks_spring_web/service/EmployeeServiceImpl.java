@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import pro.sky.combined_homeworks_spring_web.exeption.EmployeeAlreadyAddedException;
 import pro.sky.combined_homeworks_spring_web.exeption.EmployeeNotFoundException;
 import pro.sky.combined_homeworks_spring_web.model.Employee;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,6 +18,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee addNewEmployee(String firstName, String lastName, double salary, int department) {
+        checkAvailabilityDepartment(department);
         Employee employee = new Employee(firstName, lastName, salary, department);
         if (employees.containsKey(employee.getFullName())) {
             throw new EmployeeAlreadyAddedException("Такой сотрудник уже существует");
@@ -49,7 +49,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Map<String, Employee> getEmployees() {
-
         return Collections.unmodifiableMap(employees);
     }
 
