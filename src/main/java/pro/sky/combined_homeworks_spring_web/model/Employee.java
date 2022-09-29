@@ -53,6 +53,10 @@ public class Employee {
         return department;
     }
 
+    public double getSalary() {
+        return salary;
+    }
+
     public static int getNumberOfDepartments() {
         return numberOfDepartments;
     }

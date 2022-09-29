@@ -81,20 +81,35 @@ public class EmployeeServiceImpl implements EmployeeService {
         return result;
     }
 
-//    public Employee findHighestPaidEmployeeInDepartment(int departmentNumber) {
-//        if (departmentNumber <= 0 || departmentNumber > 5) {
-//            throw new IllegalArgumentException("Неверный номер отдела, допустимое значение от 1 до 5!");
-//        }
-//        double highestSalaryInDepartment = 0;
-//        Employee highestPaidEmloyeeInDepartment = null;
-//        for (Employee currentEmployee : listOfEmployees) {
-//            if (currentEmployee != null && currentEmployee.getSalary() > highestSalaryInDepartment && currentEmployee.getDepartment() == departmentNumber) {
-//                highestSalaryInDepartment = currentEmployee.getSalary();
-//                highestPaidEmloyeeInDepartment = currentEmployee;
-//            }
-//        }
-//        return highestPaidEmloyeeInDepartment;
-//    }
+    public Employee findHighestPaidEmployeeInDepartment(int departmentId) {
+        checkAvailabilityDepartment(departmentId);
+        checkAvailabilityEmployees(departmentId);
+
+        double highestSalaryInDepartment = 0;
+        Employee highestPaidEmloyeeInDepartment = null;
+
+        for (Employee currentEmployee : listOfEmployees) {
+            if (currentEmployee != null && currentEmployee.getSalary() > highestSalaryInDepartment && currentEmployee.getDepartment() == departmentId) {
+                highestSalaryInDepartment = currentEmployee.getSalary();
+                highestPaidEmloyeeInDepartment = currentEmployee;
+            }
+        }
+        return highestPaidEmloyeeInDepartment;
+    }
+
+    public void checkAvailabilityEmployees(int departmentId) {
+        List<Employee> employeesList = new ArrayList<>(employees.values());
+        if (employeesList.stream().anyMatch(e -> e.getDepartment() == departmentId)) {
+            throw new EmployeeNotFoundException("В данном отделе нет сотрудников");
+        }
+    }
+
+    public void checkAvailabilityDepartment(int departmentId) {
+        if (departmentId <= 0 || departmentId > Employee.getNumberOfDepartments()) {
+            throw new IllegalArgumentException("Неверный номер отдела, допустимое значение от 1 до "
+                    + Employee.getNumberOfDepartments());
+        }
+    }
 //
 //    public Employee findLowestPaidEmployeeInDepartment(int departmentNumber) {
 //        if (departmentNumber <= 0 || departmentNumber > 5) {
