@@ -46,12 +46,12 @@ public class EmployeeController {
         return employeeService.getEmployees();
     }
 
-    @GetMapping("/departments/all")
+    @GetMapping(value = "/departments/all", params = {"departmentId"})
     public String getEmployeesInDepartment(@RequestParam("departmentId") int departmentId) {
         return employeeService.getEmployeesInDepartment(departmentId);
     }
 
-    @GetMapping("/departments/allList")
+    @GetMapping("/departments/all")
     public String getListOfEmployeesByDepartment() {
         return employeeService.getListOfEmployeesByDepartment();
     }
