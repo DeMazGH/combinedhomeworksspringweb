@@ -54,7 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public String getListOfEmployeesInDepartment(int departmentId) {
+    public String getEmployeesInDepartment(int departmentId) {
         List<Employee> employeesList = new ArrayList<>(employees.values());
         String result = "";
         result += "Сотрудники отдела " + departmentId + " :<br>";
@@ -72,15 +72,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         return result;
     }
 
-//    public String printEmployeeNamesByDepartment() {
-//        List<Employee> employeesList = new ArrayList<>(employees.values());
-//        String result = "Список имён сотрудников по отделам\n";
-//        for (int i = 1; i <= Employee.getNumberOfDepartments(); i++) {
-//            result += "Отдел № " + i + "\n";
-//            employeesList.stream().
-//        }
-//        return result;
-//    }
+    @Override
+    public String getListOfEmployeesByDepartment() {
+        String result = "Список имён сотрудников по отделам <br>";
+        for (int i = 1; i <= Employee.getNumberOfDepartments(); i++) {
+            result += getEmployeesInDepartment(i);
+        }
+        return result;
+    }
 
 //    public Employee findHighestPaidEmployeeInDepartment(int departmentNumber) {
 //        if (departmentNumber <= 0 || departmentNumber > 5) {

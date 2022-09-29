@@ -14,5 +14,7 @@ public interface EmployeeService {
 
     Map<String, Employee> getEmployees();
 
-    String getListOfEmployeesInDepartment(int departmentNumber);
+    String getEmployeesInDepartment(int departmentNumber);
+
+    String getListOfEmployeesByDepartment();
 }
