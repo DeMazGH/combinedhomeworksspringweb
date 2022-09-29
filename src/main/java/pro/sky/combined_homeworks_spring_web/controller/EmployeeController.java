@@ -48,7 +48,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/departments/all")
-    public String getEmployeesInDepartment(@RequestParam("departmentId")int departmentId) {
+    public String getEmployeesInDepartment(@RequestParam("departmentId") int departmentId) {
         return employeeService.getEmployeesInDepartment(departmentId);
     }
 
@@ -61,5 +61,11 @@ public class EmployeeController {
     public String findHighestPaidEmployeeInDepartment(int departmentId) {
         return "Самый высокоплачиваемый сотрудник в отделе " + departmentId + ": <br>"
                 + employeeService.findHighestPaidEmployeeInDepartment(departmentId).toString();
+    }
+
+    @GetMapping("/departments/min-salary")
+    public String findLowestPaidEmployeeInDepartment(int departmentId) {
+        return "Самый низкоплачиваемый сотрудник в отделе " + departmentId + ": <br>"
+                + employeeService.findLowestPaidEmployeeInDepartment(departmentId).toString();
     }
 }

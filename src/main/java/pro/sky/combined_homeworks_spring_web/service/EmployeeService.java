@@ -19,4 +19,6 @@ public interface EmployeeService {
     String getListOfEmployeesByDepartment();
 
     Employee findHighestPaidEmployeeInDepartment(int departmentId);
+
+    Employee findLowestPaidEmployeeInDepartment(int departmentId);
 }

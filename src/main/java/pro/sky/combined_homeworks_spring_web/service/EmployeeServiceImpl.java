@@ -93,7 +93,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .map(Employee::getSalary)
                 .max(Double::compareTo)
                 .get();
-
         Employee highestPaidEmployeeInDepartment = employeesList.stream()
                 .filter(e -> e.getSalary() == highestSalaryInDepartment).findFirst().get();
 
@@ -105,6 +104,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 //            }
 //        }
         return highestPaidEmployeeInDepartment;
+    }
+
+    @Override
+    public Employee findLowestPaidEmployeeInDepartment(int departmentId) {
+        checkAvailabilityDepartment(departmentId);
+        checkAvailabilityEmployees(departmentId);
+
+        List<Employee> employeesList = new ArrayList<>(employees.values());
+        double lowestSalaryInDepartment = employeesList.stream()
+                .filter(e -> e.getDepartment() == departmentId)
+                .map(Employee::getSalary)
+                .min(Double::compareTo)
+                .get();
+        Employee lowestPaidEmployeeInDepartment = employeesList.stream()
+                .filter(e -> e.getSalary() == lowestSalaryInDepartment).findFirst().get();
+        return lowestPaidEmployeeInDepartment;
     }
 
     public void checkAvailabilityEmployees(int departmentId) {
@@ -123,38 +138,4 @@ public class EmployeeServiceImpl implements EmployeeService {
                     + Employee.getNumberOfDepartments());
         }
     }
-//
-//    public Employee findLowestPaidEmployeeInDepartment(int departmentNumber) {
-//        if (departmentNumber <= 0 || departmentNumber > 5) {
-//            throw new IllegalArgumentException("Неверный номер отдела, допустимое значение от 1 до 5!");
-//        }
-//        double lowestSalaryInDepartment = 0;
-//        Employee lowestPaidEmployeeInDepartment = null;
-//        for (Employee currentEmployee : listOfEmployees) {
-//            if (currentEmployee != null && currentEmployee.getDepartment() == departmentNumber) {
-//                lowestSalaryInDepartment = currentEmployee.getSalary();
-//            }
-//        }
-//        for (Employee currentEmployee : listOfEmployees) {
-//            if (currentEmployee != null && currentEmployee.getDepartment() == departmentNumber && currentEmployee.getSalary() <= lowestSalaryInDepartment) {
-//                lowestSalaryInDepartment = currentEmployee.getSalary();
-//                lowestPaidEmployeeInDepartment = currentEmployee;
-//            }
-//        }
-//        return lowestPaidEmployeeInDepartment;
-//    }
-//
-//    public void changeEmployeeDepartment(String name, int newDepartmentNumber) {
-//        int counter = 0;
-//        while (counter < listOfEmployees.length) {
-//            if (listOfEmployees[counter] != null && listOfEmployees[counter].getName().equalsIgnoreCase(name)) {
-//                listOfEmployees[counter].setDepartment(newDepartmentNumber);
-//                break;
-//            }
-//            counter++;
-//        }
-//        if (counter == listOfEmployees.length) {
-//            throw new RuntimeException("Сотрудник не найден, проверьте правильность ввода данных!");
-//        }
-//    }
 }
