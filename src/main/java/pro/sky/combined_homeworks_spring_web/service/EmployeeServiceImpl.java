@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pro.sky.combined_homeworks_spring_web.exeption.EmployeeAlreadyAddedException;
 import pro.sky.combined_homeworks_spring_web.exeption.EmployeeNotFoundException;
 import pro.sky.combined_homeworks_spring_web.model.Employee;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,8 +44,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employees.containsKey(desiredEmployee)) {
             return employees.get(desiredEmployee);
         } else {
-            throw new EmployeeNotFoundException("Сотрудник не найден, проверьте правильность ввода данных!");
+            throw new EmployeeNotFoundException("Сотрудник не найден, проверьте правильность ввода данных");
         }
+//        List<Employee> employeesList = new ArrayList<>(employees.values());
+//        Optional<Employee> employee = employeesList.stream()
+//                .filter(e -> e.getFullName().equals(desiredEmployee))
+//                .findAny();
+//        return employee.orElseThrow(() -> new EmployeeNotFoundException("Сотрудник не найден, проверьте правильность ввода данных"));
     }
 
     @Override
