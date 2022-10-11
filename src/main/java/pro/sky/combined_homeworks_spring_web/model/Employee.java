@@ -2,17 +2,19 @@ package pro.sky.combined_homeworks_spring_web.model;
 
 import java.util.Objects;
 
+import static org.apache.commons.lang3.StringUtils.capitalize;
+
 public class Employee {
     private final String firstName;
     private final String lastName;
     private double salary;
     private int department;
 
-    static final int numberOfDepartments = 5;
+    static int numberOfDepartments = 5;
 
     public Employee(String firstName, String lastName, double salary, int department) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstName = capitalize(firstName.toLowerCase());
+        this.lastName = capitalize(lastName.toLowerCase());
         this.salary = salary;
         this.department = department;
     }
@@ -55,7 +57,7 @@ public class Employee {
         return salary;
     }
 
-    public static int getNumberOfDepartments() {
+    public int getNumberOfDepartments() {
         return numberOfDepartments;
     }
 }

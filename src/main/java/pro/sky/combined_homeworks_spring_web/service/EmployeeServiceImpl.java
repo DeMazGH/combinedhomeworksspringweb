@@ -3,10 +3,13 @@ package pro.sky.combined_homeworks_spring_web.service;
 import org.springframework.stereotype.Service;
 import pro.sky.combined_homeworks_spring_web.exeption.EmployeeAlreadyAddedException;
 import pro.sky.combined_homeworks_spring_web.exeption.EmployeeNotFoundException;
+import pro.sky.combined_homeworks_spring_web.exeption.InvalidNameCharachtersExeption;
 import pro.sky.combined_homeworks_spring_web.model.Employee;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.lang3.StringUtils.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -20,6 +23,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee addNewEmployee(String firstName, String lastName, double salary, int department) {
         checkAvailabilityDepartment(department);
+        validateFirstAndLastName(firstName, lastName);
+
         Employee employee = new Employee(firstName, lastName, salary, department);
         if (employees.containsKey(employee.getFullName())) {
             throw new EmployeeAlreadyAddedException("Такой сотрудник уже существует");
@@ -30,6 +35,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee deleteEmployee(String firstName, String lastName) {
+        validateFirstAndLastName(firstName, lastName);
+
         String desiredEmployee = firstName + " " + lastName;
         if (employees.containsKey(desiredEmployee)) {
             return employees.remove(desiredEmployee);
@@ -40,17 +47,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee findEmployee(String firstName, String lastName) {
+        validateFirstAndLastName(firstName, lastName);
+
         String desiredEmployee = firstName + " " + lastName;
         if (employees.containsKey(desiredEmployee)) {
             return employees.get(desiredEmployee);
         } else {
             throw new EmployeeNotFoundException("Сотрудник не найден, проверьте правильность ввода данных");
         }
-//        List<Employee> employeesList = new ArrayList<>(employees.values());
-//        Optional<Employee> employee = employeesList.stream()
-//                .filter(e -> e.getFullName().equals(desiredEmployee))
-//                .findAny();
-//        return employee.orElseThrow(() -> new EmployeeNotFoundException("Сотрудник не найден, проверьте правильность ввода данных"));
     }
 
     @Override
@@ -63,25 +67,19 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<Employee> employeesList = new ArrayList<>(employees.values());
         String result = "";
         result += "Сотрудники отдела " + departmentId + " :<br>";
-
         result += employeesList.stream()
                 .filter(e -> e.getDepartment() == departmentId)
                 .map(e -> e.getFullName() + "<br>")
                 .collect(Collectors.joining());
         result += "<br>";
-
-//        for (int i = 0; i < employeesList.size(); i++) {
-//            if (employeesList.get(i).getDepartment() == departmentId) {
-//                result += employeesList.get(i).getFullName() + " <br>";;
-//            }
-//        }
         return result;
     }
 
     @Override
     public String getListOfEmployeesByDepartment() {
+        Employee employee = new Employee("test", "test", 1, 1);
         StringBuilder result = new StringBuilder("Список имён сотрудников по отделам <br>");
-        for (int i = 1; i <= Employee.getNumberOfDepartments(); i++) {
+        for (int i = 1; i <= employee.getNumberOfDepartments(); i++) {
             result.append(getEmployeesInDepartment(i));
         }
         return result.toString();
@@ -100,14 +98,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .get();
         Employee highestPaidEmployeeInDepartment = employeesList.stream()
                 .filter(e -> e.getSalary() == highestSalaryInDepartment).findFirst().get();
-
-//        for (Employee currentEmployee : employeesList) {
-//            if (currentEmployee.getSalary() > highestSalaryInDepartment
-//                    && currentEmployee.getDepartment() == departmentId) {
-//                highestSalaryInDepartment = currentEmployee.getSalary();
-//                highestPaidEmployeeInDepartment = currentEmployee;
-//            }
-//        }
         return highestPaidEmployeeInDepartment;
     }
 
@@ -138,9 +128,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public void checkAvailabilityDepartment(int departmentId) {
-        if (departmentId <= 0 || departmentId >= Employee.getNumberOfDepartments()) {
+        Employee employee = new Employee("test", "test", 1, 1);
+        if (departmentId <= 0 || departmentId >= employee.getNumberOfDepartments()) {
             throw new IllegalArgumentException("Неверный номер отдела, допустимое значение от 1 до "
-                    + Employee.getNumberOfDepartments());
+                    + employee.getNumberOfDepartments());
+        }
+    }
+
+    void validateFirstAndLastName(String firstName, String lastName) {
+        if (isAllBlank(firstName) || isAllBlank(lastName)
+                || !isAlpha(firstName) || !isAlpha(lastName)) {
+            throw new InvalidNameCharachtersExeption("Неверно указаны имя или фамилия");
         }
     }
 }
