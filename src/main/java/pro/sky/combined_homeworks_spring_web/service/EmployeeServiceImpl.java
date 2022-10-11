@@ -46,11 +46,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         } else {
             throw new EmployeeNotFoundException("Сотрудник не найден, проверьте правильность ввода данных");
         }
-//        List<Employee> employeesList = new ArrayList<>(employees.values());
-//        Optional<Employee> employee = employeesList.stream()
-//                .filter(e -> e.getFullName().equals(desiredEmployee))
-//                .findAny();
-//        return employee.orElseThrow(() -> new EmployeeNotFoundException("Сотрудник не найден, проверьте правильность ввода данных"));
     }
 
     @Override
@@ -69,12 +64,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .map(e -> e.getFullName() + "<br>")
                 .collect(Collectors.joining());
         result += "<br>";
-
-//        for (int i = 0; i < employeesList.size(); i++) {
-//            if (employeesList.get(i).getDepartment() == departmentId) {
-//                result += employeesList.get(i).getFullName() + " <br>";;
-//            }
-//        }
         return result;
     }
 
@@ -100,14 +89,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .get();
         Employee highestPaidEmployeeInDepartment = employeesList.stream()
                 .filter(e -> e.getSalary() == highestSalaryInDepartment).findFirst().get();
-
-//        for (Employee currentEmployee : employeesList) {
-//            if (currentEmployee.getSalary() > highestSalaryInDepartment
-//                    && currentEmployee.getDepartment() == departmentId) {
-//                highestSalaryInDepartment = currentEmployee.getSalary();
-//                highestPaidEmployeeInDepartment = currentEmployee;
-//            }
-//        }
         return highestPaidEmployeeInDepartment;
     }
 
