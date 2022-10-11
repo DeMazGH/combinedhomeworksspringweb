@@ -1,8 +1,10 @@
 package pro.sky.combined_homeworks_spring_web.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pro.sky.combined_homeworks_spring_web.exeption.EmployeeAlreadyAddedException;
 import pro.sky.combined_homeworks_spring_web.exeption.EmployeeNotFoundException;
+import pro.sky.combined_homeworks_spring_web.exeption.InvalidNameCharachtersExeption;
 import pro.sky.combined_homeworks_spring_web.model.Employee;
 
 import java.util.*;
@@ -20,7 +22,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee addNewEmployee(String firstName, String lastName, double salary, int department) {
         checkAvailabilityDepartment(department);
-        Employee employee = new Employee(firstName, lastName, salary, department);
+        checkFirstAndLastName(firstName, lastName);
+        Employee employee = new Employee(leadToFormOfName(firstName), leadToFormOfName(lastName), salary, department);
         if (employees.containsKey(employee.getFullName())) {
             throw new EmployeeAlreadyAddedException("Такой сотрудник уже существует");
         }
@@ -58,7 +61,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<Employee> employeesList = new ArrayList<>(employees.values());
         String result = "";
         result += "Сотрудники отдела " + departmentId + " :<br>";
-
         result += employeesList.stream()
                 .filter(e -> e.getDepartment() == departmentId)
                 .map(e -> e.getFullName() + "<br>")
@@ -125,5 +127,16 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new IllegalArgumentException("Неверный номер отдела, допустимое значение от 1 до "
                     + employee.getNumberOfDepartments());
         }
+    }
+
+    void checkFirstAndLastName(String firstName, String lastName) {
+        if(StringUtils.isAllBlank(firstName) || StringUtils.isAllBlank(lastName)
+            || !StringUtils.isAlphaSpace(firstName) || !StringUtils.isAlphaSpace(lastName)) {
+            throw new InvalidNameCharachtersExeption("Неверно указаны имя или фамилия");
+        }
+    }
+
+    String leadToFormOfName(String name) {
+        return StringUtils.capitalize(name.toLowerCase());
     }
 }
