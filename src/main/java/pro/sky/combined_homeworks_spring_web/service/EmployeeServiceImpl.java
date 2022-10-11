@@ -1,6 +1,5 @@
 package pro.sky.combined_homeworks_spring_web.service;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pro.sky.combined_homeworks_spring_web.exeption.EmployeeAlreadyAddedException;
 import pro.sky.combined_homeworks_spring_web.exeption.EmployeeNotFoundException;
@@ -9,6 +8,8 @@ import pro.sky.combined_homeworks_spring_web.model.Employee;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.lang3.StringUtils.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -22,8 +23,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee addNewEmployee(String firstName, String lastName, double salary, int department) {
         checkAvailabilityDepartment(department);
-        checkFirstAndLastName(firstName, lastName);
-        Employee employee = new Employee(leadToFormOfName(firstName), leadToFormOfName(lastName), salary, department);
+        validateFirstAndLastName(firstName, lastName);
+
+        Employee employee = new Employee(firstName, lastName, salary, department);
         if (employees.containsKey(employee.getFullName())) {
             throw new EmployeeAlreadyAddedException("Такой сотрудник уже существует");
         }
@@ -33,6 +35,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee deleteEmployee(String firstName, String lastName) {
+        validateFirstAndLastName(firstName, lastName);
+
         String desiredEmployee = firstName + " " + lastName;
         if (employees.containsKey(desiredEmployee)) {
             return employees.remove(desiredEmployee);
@@ -43,6 +47,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee findEmployee(String firstName, String lastName) {
+        validateFirstAndLastName(firstName, lastName);
+
         String desiredEmployee = firstName + " " + lastName;
         if (employees.containsKey(desiredEmployee)) {
             return employees.get(desiredEmployee);
@@ -129,14 +135,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-    void checkFirstAndLastName(String firstName, String lastName) {
-        if(StringUtils.isAllBlank(firstName) || StringUtils.isAllBlank(lastName)
-            || !StringUtils.isAlphaSpace(firstName) || !StringUtils.isAlphaSpace(lastName)) {
+    void validateFirstAndLastName(String firstName, String lastName) {
+        if (isAllBlank(firstName) || isAllBlank(lastName)
+                || !isAlpha(firstName) || !isAlpha(lastName)) {
             throw new InvalidNameCharachtersExeption("Неверно указаны имя или фамилия");
         }
-    }
-
-    String leadToFormOfName(String name) {
-        return StringUtils.capitalize(name.toLowerCase());
     }
 }
