@@ -69,8 +69,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public String getListOfEmployeesByDepartment() {
+        Employee employee = new Employee("test", "test", 1, 1);
         StringBuilder result = new StringBuilder("Список имён сотрудников по отделам <br>");
-        for (int i = 1; i <= Employee.getNumberOfDepartments(); i++) {
+        for (int i = 1; i <= employee.getNumberOfDepartments(); i++) {
             result.append(getEmployeesInDepartment(i));
         }
         return result.toString();
@@ -119,9 +120,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public void checkAvailabilityDepartment(int departmentId) {
-        if (departmentId <= 0 || departmentId >= Employee.getNumberOfDepartments()) {
+        Employee employee = new Employee("test", "test", 1, 1);
+        if (departmentId <= 0 || departmentId >= employee.getNumberOfDepartments()) {
             throw new IllegalArgumentException("Неверный номер отдела, допустимое значение от 1 до "
-                    + Employee.getNumberOfDepartments());
+                    + employee.getNumberOfDepartments());
         }
     }
 }

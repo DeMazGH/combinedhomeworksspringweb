@@ -8,7 +8,7 @@ public class Employee {
     private double salary;
     private int department;
 
-    static final int numberOfDepartments = 5;
+    static int numberOfDepartments = 5;
 
     public Employee(String firstName, String lastName, double salary, int department) {
         this.firstName = firstName;
@@ -55,7 +55,7 @@ public class Employee {
         return salary;
     }
 
-    public static int getNumberOfDepartments() {
+    public int getNumberOfDepartments() {
         return numberOfDepartments;
     }
 }
