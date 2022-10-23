@@ -8,6 +8,8 @@ import pro.sky.combined_homeworks_spring_web.exeption.EmployeeNotFoundException;
 import pro.sky.combined_homeworks_spring_web.model.Employee;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static pro.sky.combined_homeworks_spring_web.constants.EmployeeAndDepartmentServiceTestConstant.*;
@@ -89,6 +91,22 @@ class EmployeeServiceImplTest {
 
     @Test
     void getEmployees() {
+    }
+
+    @Test
+    public void shouldReturnMapWithCorrectEmployees() {
+        out.addNewEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV, SALARY_10000d, DEPARTMENT_1);
+        out.addNewEmployee(FIRST_NAME_PETR, LAST_NAME_PETROV, SALARY_20000d, DEPARTMENT_2);
+
+        Employee employee = new Employee(FIRST_NAME_IVAN, LAST_NAME_IVANOV, SALARY_10000d, DEPARTMENT_1);
+        Employee employee2 = new Employee(FIRST_NAME_PETR, LAST_NAME_PETROV, SALARY_20000d, DEPARTMENT_2);
+        Map<String,Employee> expected = new HashMap<>();
+        expected.put(FIRST_NAME_IVAN + " " + LAST_NAME_IVANOV, employee);
+        expected.put(FIRST_NAME_PETR + " " + LAST_NAME_PETROV, employee2);
+
+        Map<String,Employee> actual = out.getEmployees();
+
+        assertEquals(actual, expected); // assertIterableEquals - почему не он не работает?
     }
 
     @Test
