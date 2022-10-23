@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pro.sky.combined_homeworks_spring_web.constants.EmployeeAndDepartmentServiceTestConstant;
 import pro.sky.combined_homeworks_spring_web.exeption.EmployeeAlreadyAddedException;
+import pro.sky.combined_homeworks_spring_web.exeption.EmployeeNotFoundException;
 import pro.sky.combined_homeworks_spring_web.model.Employee;
 
 import java.util.Collections;
@@ -42,14 +43,39 @@ class EmployeeServiceImplTest {
                 () -> out.addNewEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV, SALARY_10000d, DEPARTMENT_1));
     }
 
-
     @Test
     void deleteEmployee() {
     }
 
     @Test
+    public void shouldReturnRemovedEmployee() {
+        out.addNewEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV, SALARY_10000d, DEPARTMENT_1);
+        Employee expected = new Employee(FIRST_NAME_IVAN, LAST_NAME_IVANOV, SALARY_10000d, DEPARTMENT_1);
+        Employee actual = out.deleteEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV);
+
+        assertEquals(actual, expected);
+    }
+    @Test
+    public void mapShouldNotContainDesiredEmployeeAndReturnNull() {
+        out.addNewEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV, SALARY_10000d, DEPARTMENT_1);
+        out.deleteEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV);
+        Employee actual = out.getEmployees().get(FIRST_NAME_IVAN + " " + LAST_NAME_IVANOV);
+
+        assertNull(actual);
+    }
+
+    @Test
+    public void shouldThrowsEmployeeNotFoundExceptionn() {
+        assertThrows(EmployeeNotFoundException.class, () -> out.deleteEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV));
+    }
+
+    @Test
     void findEmployee() {
     }
+
+
+//        assertThrows(EmployeeNotFoundException.class,
+//                () -> out.findEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV));
 
     @Test
     void getEmployees() {
