@@ -71,6 +71,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
+    @Override
     public void checkAvailabilityDepartment(int departmentId) {
         Employee employee = new Employee("test", "test", 1, 1);
         if (departmentId <= 0 || departmentId >= employee.getNumberOfDepartments()) {
