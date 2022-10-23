@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pro.sky.combined_homeworks_spring_web.model.Employee;
+import pro.sky.combined_homeworks_spring_web.service.DepartmentService;
 import pro.sky.combined_homeworks_spring_web.service.EmployeeService;
 
 import java.util.Map;
@@ -14,9 +15,11 @@ import java.util.Map;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final DepartmentService departmentService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, DepartmentService departmentService) {
         this.employeeService = employeeService;
+        this.departmentService = departmentService;
     }
 
     @GetMapping("/add")
@@ -49,23 +52,23 @@ public class EmployeeController {
 
     @GetMapping(value = "/departments/all", params = {"departmentId"})
     public String getEmployeesInDepartment(@RequestParam("departmentId") int departmentId) {
-        return employeeService.getEmployeesInDepartment(departmentId);
+        return departmentService.getEmployeesInDepartment(departmentId);
     }
 
     @GetMapping("/departments/all")
     public String getListOfEmployeesByDepartment() {
-        return employeeService.getListOfEmployeesByDepartment();
+        return departmentService.getListOfEmployeesByDepartment();
     }
 
     @GetMapping("/departments/max-salary")
     public String findHighestPaidEmployeeInDepartment(int departmentId) {
         return "Самый высокоплачиваемый сотрудник в отделе " + departmentId + ": <br>"
-                + employeeService.findHighestPaidEmployeeInDepartment(departmentId).toString();
+                + departmentService.findHighestPaidEmployeeInDepartment(departmentId).toString();
     }
 
     @GetMapping("/departments/min-salary")
     public String findLowestPaidEmployeeInDepartment(int departmentId) {
         return "Самый низкоплачиваемый сотрудник в отделе " + departmentId + ": <br>"
-                + employeeService.findLowestPaidEmployeeInDepartment(departmentId).toString();
+                + departmentService.findLowestPaidEmployeeInDepartment(departmentId).toString();
     }
 }

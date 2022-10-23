@@ -13,11 +13,5 @@ public interface EmployeeService {
 
     Map<String, Employee> getEmployees();
 
-    String getEmployeesInDepartment(int departmentNumber);
-
-    String getListOfEmployeesByDepartment();
-
-    Employee findHighestPaidEmployeeInDepartment(int departmentId);
-
-    Employee findLowestPaidEmployeeInDepartment(int departmentId);
+    void checkAvailabilityDepartment(int departmentId);
 }
