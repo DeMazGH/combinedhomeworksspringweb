@@ -3,6 +3,7 @@ package pro.sky.combined_homeworks_spring_web.service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pro.sky.combined_homeworks_spring_web.constants.EmployeeAndDepartmentServiceTestConstant;
+import pro.sky.combined_homeworks_spring_web.exeption.EmployeeAlreadyAddedException;
 import pro.sky.combined_homeworks_spring_web.model.Employee;
 
 import java.util.Collections;
@@ -32,6 +33,13 @@ class EmployeeServiceImplTest {
         Employee expected = new Employee(FIRST_NAME_IVAN, LAST_NAME_IVANOV, SALARY_10000d, DEPARTMENT_1);
         Employee actual = out.getEmployees().get(FIRST_NAME_IVAN + " " + LAST_NAME_IVANOV);
         assertEquals(actual, expected);
+    }
+
+    @Test
+    public void shouldThrowsEmployeeAlreadyAddedException() {
+        out.addNewEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV, SALARY_10000d, DEPARTMENT_1);
+        assertThrows(EmployeeAlreadyAddedException.class,
+                () -> out.addNewEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV, SALARY_10000d, DEPARTMENT_1));
     }
 
 
