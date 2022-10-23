@@ -65,7 +65,7 @@ class EmployeeServiceImplTest {
     }
 
     @Test
-    public void shouldThrowsEmployeeNotFoundExceptionn() {
+    public void shouldThrowsEmployeeNotFoundExceptionInMethodDeleteEmployee() {
         assertThrows(EmployeeNotFoundException.class, () -> out.deleteEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV));
     }
 
@@ -73,9 +73,19 @@ class EmployeeServiceImplTest {
     void findEmployee() {
     }
 
+    @Test
+    public void shouldReturnDesiredEmployee() {
+        out.addNewEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV, SALARY_10000d, DEPARTMENT_1);
+        Employee expected = new Employee(FIRST_NAME_IVAN, LAST_NAME_IVANOV, SALARY_10000d, DEPARTMENT_1);
+        Employee actual = out.findEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV);
 
-//        assertThrows(EmployeeNotFoundException.class,
-//                () -> out.findEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV));
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public void shouldThrowsEmployeeNotFoundExceptionInMethodFindEmployee() {
+        assertThrows(EmployeeNotFoundException.class, () -> out.findEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV));
+    }
 
     @Test
     void getEmployees() {
