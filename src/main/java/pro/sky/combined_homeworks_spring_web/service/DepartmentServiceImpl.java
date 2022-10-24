@@ -73,6 +73,7 @@ public class DepartmentServiceImpl implements DepartmentService{
         return lowestPaidEmployeeInDepartment;
     }
 
+    @Override
     public void checkAvailabilityEmployees(int departmentId) {
         List<Employee> employeesList = new ArrayList<>(employeeService.getEmployees().values());
         if (employeesList.isEmpty()) {

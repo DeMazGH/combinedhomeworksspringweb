@@ -10,4 +10,6 @@ public interface DepartmentService {
     Employee findHighestPaidEmployeeInDepartment(int departmentId);
 
     Employee findLowestPaidEmployeeInDepartment(int departmentId);
+
+    void checkAvailabilityEmployees(int departmentId);
 }
