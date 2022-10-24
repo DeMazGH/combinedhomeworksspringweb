@@ -19,6 +19,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Override
     public String getEmployeesInDepartment(int departmentId) {
+        employeeService.checkAvailabilityDepartment(departmentId);
         List<Employee> employeesList = new ArrayList<>(employeeService.getEmployees().values());
         String result = "";
         result += "Сотрудники отдела " + departmentId + " :<br>";
