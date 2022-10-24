@@ -1,15 +1,17 @@
 package pro.sky.combined_homeworks_spring_web.service;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pro.sky.combined_homeworks_spring_web.constants.EmployeeAndDepartmentServiceTestConstant;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import pro.sky.combined_homeworks_spring_web.exeption.EmployeeAlreadyAddedException;
 import pro.sky.combined_homeworks_spring_web.exeption.EmployeeNotFoundException;
+import pro.sky.combined_homeworks_spring_web.exeption.InvalidNameCharactersException;
 import pro.sky.combined_homeworks_spring_web.model.Employee;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static pro.sky.combined_homeworks_spring_web.constants.EmployeeAndDepartmentServiceTestConstant.*;
@@ -17,10 +19,6 @@ import static pro.sky.combined_homeworks_spring_web.constants.EmployeeAndDepartm
 class EmployeeServiceImplTest {
 
     private final EmployeeService out = new EmployeeServiceImpl();
-
-    @Test
-    void addNewEmployee() {
-    }
 
     @Test
     public void shouldReturnEmployeeWithCorrectField() {
@@ -46,10 +44,6 @@ class EmployeeServiceImplTest {
     }
 
     @Test
-    void deleteEmployee() {
-    }
-
-    @Test
     public void shouldReturnRemovedEmployee() {
         out.addNewEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV, SALARY_10000d, DEPARTMENT_1);
         Employee expected = new Employee(FIRST_NAME_IVAN, LAST_NAME_IVANOV, SALARY_10000d, DEPARTMENT_1);
@@ -57,6 +51,7 @@ class EmployeeServiceImplTest {
 
         assertEquals(actual, expected);
     }
+
     @Test
     public void mapShouldNotContainDesiredEmployeeAndReturnNull() {
         out.addNewEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV, SALARY_10000d, DEPARTMENT_1);
@@ -69,10 +64,6 @@ class EmployeeServiceImplTest {
     @Test
     public void shouldThrowsEmployeeNotFoundExceptionInMethodDeleteEmployee() {
         assertThrows(EmployeeNotFoundException.class, () -> out.deleteEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV));
-    }
-
-    @Test
-    void findEmployee() {
     }
 
     @Test
@@ -90,30 +81,61 @@ class EmployeeServiceImplTest {
     }
 
     @Test
-    void getEmployees() {
-    }
-
-    @Test
     public void shouldReturnMapWithCorrectEmployees() {
         out.addNewEmployee(FIRST_NAME_IVAN, LAST_NAME_IVANOV, SALARY_10000d, DEPARTMENT_1);
         out.addNewEmployee(FIRST_NAME_PETR, LAST_NAME_PETROV, SALARY_20000d, DEPARTMENT_2);
+        Map<String, Employee> actual = out.getEmployees();
 
         Employee employee = new Employee(FIRST_NAME_IVAN, LAST_NAME_IVANOV, SALARY_10000d, DEPARTMENT_1);
         Employee employee2 = new Employee(FIRST_NAME_PETR, LAST_NAME_PETROV, SALARY_20000d, DEPARTMENT_2);
-        Map<String,Employee> expected = new HashMap<>();
+        Map<String, Employee> expected = new HashMap<>();
         expected.put(FIRST_NAME_IVAN + " " + LAST_NAME_IVANOV, employee);
         expected.put(FIRST_NAME_PETR + " " + LAST_NAME_PETROV, employee2);
 
-        Map<String,Employee> actual = out.getEmployees();
-
-        assertEquals(actual, expected); // assertIterableEquals - почему не он не работает?
+        assertEquals(actual, expected); // assertIterableEquals - почему он здесь не работает?
     }
 
     @Test
-    void validateFirstAndLastName() {
+    public void shouldDoNothingInMethodValidateFirstAndLastName() {
+        out.validateFirstAndLastName(FIRST_NAME_IVAN, LAST_NAME_IVANOV);
+    }
+
+    @ParameterizedTest
+    @MethodSource("validateFirstAndLastNameParamTest")
+    public void shouldReturnInvalidNameCharactersException(String firstName, String lastName) {
+        assertThrows(InvalidNameCharactersException.class, () -> out.validateFirstAndLastName(firstName, lastName));
+    }
+
+    public static Stream<Arguments> validateFirstAndLastNameParamTest() {
+        return Stream.of(
+                Arguments.of(ILLEGAL_CHARACTERS_NAME, LAST_NAME_IVANOV),
+                Arguments.of(FIRST_NAME_IVAN, ILLEGAL_CHARACTERS_NAME),
+                Arguments.of(EMPTY_NAME, LAST_NAME_IVANOV),
+                Arguments.of(FIRST_NAME_IVAN, EMPTY_NAME),
+                Arguments.of(ONLY_SPACE_NAME, LAST_NAME_IVANOV),
+                Arguments.of(FIRST_NAME_IVAN, ONLY_SPACE_NAME),
+                Arguments.of(NULL_NAME, LAST_NAME_IVANOV),
+                Arguments.of(FIRST_NAME_IVAN, NULL_NAME)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("checkAvailabilityDepartmentParamTest")
+    public void shouldThrowsIllegalArgumentExceptionInMethodCheckAvailabilityDepartment(int departmentNumber) {
+        assertThrows(IllegalArgumentException.class, () -> out.checkAvailabilityDepartment(departmentNumber));
+    }
+
+    public static Stream<Arguments> checkAvailabilityDepartmentParamTest() {
+        return Stream.of(
+                Arguments.of(DEPARTMENT_0),
+                Arguments.of(DEPARTMENT_NEGATIVE_3),
+                Arguments.of(DEPARTMENT_6)
+        );
     }
 
     @Test
-    void checkAvailabilityDepartment() {
+    public void shouldDoNothingInMethodCheckAvailabilityDepartment() {
+        out.checkAvailabilityDepartment(DEPARTMENT_1);
+        out.checkAvailabilityDepartment(DEPARTMENT_5);
     }
 }

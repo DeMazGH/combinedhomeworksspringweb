@@ -3,7 +3,7 @@ package pro.sky.combined_homeworks_spring_web.service;
 import org.springframework.stereotype.Service;
 import pro.sky.combined_homeworks_spring_web.exeption.EmployeeAlreadyAddedException;
 import pro.sky.combined_homeworks_spring_web.exeption.EmployeeNotFoundException;
-import pro.sky.combined_homeworks_spring_web.exeption.InvalidNameCharachtersExeption;
+import pro.sky.combined_homeworks_spring_web.exeption.InvalidNameCharactersException;
 import pro.sky.combined_homeworks_spring_web.model.Employee;
 
 import java.util.Collections;
@@ -64,17 +64,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         return Collections.unmodifiableMap(employees);
     }
 
-    void validateFirstAndLastName(String firstName, String lastName) {
+    @Override
+    public void validateFirstAndLastName(String firstName, String lastName) {
         if (isAllBlank(firstName) || isAllBlank(lastName)
                 || !isAlpha(firstName) || !isAlpha(lastName)) {
-            throw new InvalidNameCharachtersExeption("Неверно указаны имя или фамилия");
+            throw new InvalidNameCharactersException("Неверно указаны имя или фамилия");
         }
     }
 
     @Override
     public void checkAvailabilityDepartment(int departmentId) {
-        Employee employee = new Employee("test", "test", 1, 1);
-        if (departmentId <= 0 || departmentId >= employee.getNumberOfDepartments()) {
+        Employee employee = new Employee("test", "test", 1, departmentId);
+        if (departmentId <= 0 || departmentId > employee.getNumberOfDepartments()) {
             throw new IllegalArgumentException("Неверный номер отдела, допустимое значение от 1 до "
                     + employee.getNumberOfDepartments());
         }

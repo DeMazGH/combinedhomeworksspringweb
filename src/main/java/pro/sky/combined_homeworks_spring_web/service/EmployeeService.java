@@ -14,4 +14,6 @@ public interface EmployeeService {
     Map<String, Employee> getEmployees();
 
     void checkAvailabilityDepartment(int departmentId);
+
+    void validateFirstAndLastName(String firstName, String lastName);
 }
