@@ -13,11 +13,7 @@ public interface EmployeeService {
 
     Map<String, Employee> getEmployees();
 
-    String getEmployeesInDepartment(int departmentNumber);
+    void checkAvailabilityDepartment(int departmentId);
 
-    String getListOfEmployeesByDepartment();
-
-    Employee findHighestPaidEmployeeInDepartment(int departmentId);
-
-    Employee findLowestPaidEmployeeInDepartment(int departmentId);
+    void validateFirstAndLastName(String firstName, String lastName);
 }
