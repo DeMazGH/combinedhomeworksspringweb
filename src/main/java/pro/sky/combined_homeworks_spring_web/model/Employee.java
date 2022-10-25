@@ -10,7 +10,7 @@ public class Employee {
     private double salary;
     private int department;
 
-    static int numberOfDepartments = 5;
+    public final static int NUMBER_OF_DEPARTMENTS = 5;
 
     public Employee(String firstName, String lastName, double salary, int department) {
         this.firstName = capitalize(firstName.toLowerCase());
@@ -55,9 +55,5 @@ public class Employee {
 
     public double getSalary() {
         return salary;
-    }
-
-    public int getNumberOfDepartments() {
-        return numberOfDepartments;
     }
 }

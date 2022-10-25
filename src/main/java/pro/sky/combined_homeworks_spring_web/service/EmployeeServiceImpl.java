@@ -74,10 +74,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void checkAvailabilityDepartment(int departmentId) {
-        Employee employee = new Employee("test", "test", 1, departmentId);
-        if (departmentId <= 0 || departmentId > employee.getNumberOfDepartments()) {
+        if (departmentId <= 0 || departmentId > Employee.NUMBER_OF_DEPARTMENTS) {
             throw new IllegalArgumentException("Неверный номер отдела, допустимое значение от 1 до "
-                    + employee.getNumberOfDepartments());
+                    + Employee.NUMBER_OF_DEPARTMENTS);
         }
     }
 }

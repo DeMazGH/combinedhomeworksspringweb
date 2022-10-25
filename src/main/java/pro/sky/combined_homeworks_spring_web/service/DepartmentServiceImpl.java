@@ -35,7 +35,7 @@ public class DepartmentServiceImpl implements DepartmentService{
     public String getListOfEmployeesByDepartment() {
         Employee employee = new Employee("test", "test", 1, 1);
         StringBuilder result = new StringBuilder("Список имён сотрудников по отделам <br>");
-        for (int i = 1; i <= employee.getNumberOfDepartments(); i++) {
+        for (int i = 1; i <= Employee.NUMBER_OF_DEPARTMENTS; i++) {
             result.append(getEmployeesInDepartment(i));
         }
         return result.toString();
